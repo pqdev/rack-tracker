@@ -34,14 +34,16 @@ class MetalController < ActionController::Metal
       t.google_analytics :ecommerce, { type: 'addTransaction', id: 1234, affiliation: 'Acme Clothing', revenue: 11.99, shipping: 5, tax: 1.29 }
       t.google_analytics :ecommerce, { type: 'addItem', id: 1234, name: 'Fluffy Pink Bunnies', sku: 'DD23444', category: 'Party Toys', price: 11.99, quantity: 1 }
       t.google_analytics :send, { type: 'event', category: 'button', action: 'click', label: 'nav-buttons', value: 'X' }
+      t.google_analytics :parameter, dimension1: %q{Some escaped \\'value}
+      t.google_analytics :parameter, dimension2: %q{Author's name}
     end
     render "metal/index"
   end
 
   def google_tag_manager
     tracker do |t|
-      t.google_tag_manager :push, { name: 'click', value: 'X' }
-      t.google_tag_manager :push, { name: 'price', value: '10' }
+      t.google_tag_manager :push, { click: 'X', price: 10 }
+      t.google_tag_manager :push, transactionProducts: [{ sku: 'DD44', name: 'T-shirt' }, { sku: 'DD66', name: 'Jeans' }]
     end
     render "metal/index"
   end
@@ -77,8 +79,9 @@ class MetalController < ActionController::Metal
 
   def zanox
     tracker do |t|
-      t.zanox :mastertag, { id: 'blurg567'}
-      t.zanox :track, { customer_i_d: '123456', order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00'}
+      t.zanox :mastertag, { id: 'blurg567', category: 'cake decorating', amount: '5.90'}
+      t.zanox :sale, { customer_i_d: '123456', order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00' }
+      t.zanox :lead, { customer_i_d: '654321' }
     end
     render 'metal/index'
   end

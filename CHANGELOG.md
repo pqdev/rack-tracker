@@ -1,3 +1,30 @@
+# 1.1.0
+
+  * [BREAKING] Google Tag Manager #59
+    * change `dataLayer.push` syntax from from `name: 'click', value: 'X'` to just `click: 'X'`
+    * this allows to specify a hash with multiple key-value pairs for one push event
+    * this will also correctly handle array values (see issue #57)
+  * setEmail event for criteo #51 (thx @florianeck)
+
+# 1.0.2
+
+  * Back port deep_stringify_keys! from Rails 4 #55 (thx @jivagoalves)
+  * Javascript escape implementation to prevent XSS #54 (thx @fabn)
+
+# 1.0.1
+
+  * [BUGFIX] Fix for adjusted_bounce_rate_timeouts #49 (thx @fabn)
+  * [BUGFIX] Do not pass string in mastertag when should be json #47 (thx @berlintam)
+
+# 1.0.0
+
+  * [BUGFIX] breaking API change: set zanox path extension #45 (thx @berlintam)
+  * [BUGFIX] Fix Google Analytics pageview command arguments #44 (thx @remiprev)
+
+# 0.4.2
+
+  * [BUGFIX] proper page track when used with turbolink #40 (thx @remiprev @musaffa)
+
 # 0.4.1
 
   * [ENHANCEMENT] support zanox mastertag and tracking events
