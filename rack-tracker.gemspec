@@ -10,10 +10,12 @@ Gem::Specification.new do |spec|
   spec.email         = ["lars@railslove.com", "marco@railslove.com"]
   spec.summary       = %q{Tracking made easy}
   spec.description   = %q{Don’t fool around with adding tracking partials to your app and concentrate on the things that matter.}
-  spec.homepage      = "https://github.com/railslove/rack-tracker"
+  spec.homepage      = "https://github.com/refworkscos/rack-tracker.git"
   spec.license       = "MIT"
 
-  spec.files         = `git ls-files -z`.split("\x0")
+  spec.files = Dir['lib/   *.rb'] + Dir['bin/*']
+  spec.files += Dir['[A-Z]*'] + Dir['spec/**/*']  + Dir['vendor/**/*']
+
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
