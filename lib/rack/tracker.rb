@@ -61,6 +61,10 @@ module Rack
       @handlers.each(env) do |handler|
         handlers_by_position[handler.position_options] = '' if handlers_by_position[handler.position_options].blank?
         handlers_by_position[handler.position_options] += handler.render
+        if handler.position_options_ns
+          handlers_by_position[handler.position_options_ns] = '' if handlers_by_position[handler.position_options_ns].blank?
+          handlers_by_position[handler.position_options_ns] += handler.render_ns 
+        end
       end
 
       handlers_by_position.map do |position, rendered_handlers|
@@ -70,7 +74,7 @@ module Rack
           if insert == :append
             #response.sub!(%r{</#{tag}>}, rendered_handlers + '\0')
             response.sub!  %r{</#{tag}>} do |m|
-                     rendered_handlers << m.to_s
+              rendered_handlers << m.to_s
             end
           else
             #response.sub!(%r{<#{tag}[^>]*>}, '\0' + rendered_handlers)
