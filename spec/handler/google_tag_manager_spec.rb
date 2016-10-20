@@ -7,10 +7,16 @@ RSpec.describe Rack::Tracker::GoogleTagManager do
     }
   end
 
-  it 'will be placed in the body by default' do
-    expect(described_class.position).to eq({ body: :prepend })
-    expect(described_class.new(env).position).to eq({ body: :prepend })
+  it 'js will be placed in the head by default' do
+    expect(described_class.position).to eq({ head: :prepend })
+    expect(described_class.new(env).position).to eq({ head: :prepend })
     expect(described_class.new(env, position: { head: :append }).position).to eq({ head: :append })
+  end
+  
+  it 'noscript will be placed in the body by default' do
+    expect(described_class.position_ns).to eq({ body: :prepend })
+    expect(described_class.new(env).position_ns).to eq({ body: :prepend })
+    expect(described_class.new(env, position_ns: { body: :append }).position_ns).to eq({ body: :append })
   end
 
   describe "with events" do
