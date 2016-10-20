@@ -65,10 +65,18 @@ module Rack
 
       handlers_by_position.map do |position, rendered_handlers|
         position.map do |tag, insert|
+          # Block syntax need to be used, otherwise backslashes in input will mess the output.
+          # @see http://stackoverflow.com/a/4149087/518204 and https://github.com/railslove/rack-tracker/issues/50
           if insert == :append
-            response.sub!(%r{</#{tag}>}, rendered_handlers + '\0')
+            #response.sub!(%r{</#{tag}>}, rendered_handlers + '\0')
+            response.sub!  %r{</#{tag}>} do |m|
+                     rendered_handlers << m.to_s
+            end
           else
-            response.sub!(%r{<#{tag}[^>]*>}, '\0' + rendered_handlers)
+            #response.sub!(%r{<#{tag}[^>]*>}, '\0' + rendered_handlers)
+            response.sub! %r{<#{tag}[^>]*>} do |m|
+               m.to_s << rendered_handlers
+            end
           end
         end
       end
