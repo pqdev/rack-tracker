@@ -1,6 +1,9 @@
 class Rack::Tracker::Handler
   class_attribute :position_options
-  self.position_options = { head: :append }
+  class_attribute :position_options_ns
+  
+  self.position_options    = { head: :append }
+  self.position_options_ns = { body: :prepend }
 
   attr_accessor :options
   attr_accessor :env
@@ -11,7 +14,8 @@ class Rack::Tracker::Handler
   def initialize(env, options = {})
     self.env = env
     self.options = options
-    self.position_options = options[:position] if options[:position]
+    self.position_options    = options[:position] if options[:position]
+    self.position_options_ns = options[:position_ns] if options[:position_ns]
   end
 
   def events
@@ -22,6 +26,10 @@ class Rack::Tracker::Handler
   def render
     raise NotImplementedError.new('needs implementation')
   end
+  
+  def render_ns
+    return ""
+  end
 
   def self.track(name, event)
     raise NotImplementedError.new("class method `#{__callee__}` is not implemented.")
@@ -31,8 +39,17 @@ class Rack::Tracker::Handler
     self.position_options = options if options
     self.position_options
   end
+  
+  def self.position_ns(options=nil)
+    self.position_options_ns = options if options
+    self.position_options_ns
+  end
 
   def position
     self.position_options
+  end
+  
+  def position_ns
+    self.position_options_ns
   end
 end
